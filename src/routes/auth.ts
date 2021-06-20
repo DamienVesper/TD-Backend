@@ -1,9 +1,9 @@
 import * as Express from 'express';
-
-import * as xssFilters from 'xss-filters';
 import passport from '../passport';
 
 import * as bcrypt from 'bcrypt';
+
+import * as xssFilters from 'xss-filters';
 import * as HCaptcha from 'hcaptcha';
 
 import config from '../../config/config';
