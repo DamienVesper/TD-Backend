@@ -10,12 +10,12 @@ import throwdownUser from './modules/throwdownUser';
 
 import passport from './passport';
 
-import banRouter from './routes/ban';
-import apiRouter from './routes/api';
-import authRouter from './routes/auth';
-import postRouter from './routes/settings';
-import widgetRouter from './routes/widget';
-import vipRouter from './routes/vip';
+import banRouter from './ruts/ban';
+import apiRouter from './ruts/api';
+import authRouter from './ruts/auth';
+import postRouter from './ruts/settings';
+import widgetRouter from './ruts/widget';
+import vipRouter from './ruts/vip';
 
 import * as path from 'path';
 import * as http from 'http';
