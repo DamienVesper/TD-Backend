@@ -1,0 +1,39 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "standard"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
+    "rules": {
+        "indent": ["error", 4, { "SwitchCase": 1 }],
+
+        "semi": [2, "always"],
+        "quotes": [2, "backtick", "avoid-escape"],
+
+        "no-mixed-operators": 0,
+        "curly": 0,
+
+        "prefer-arrow-callback": 1,
+        "prefer-template": 1,
+
+        "no-use-before-define": 0,
+        "@typescript-eslint/no-use-before-define": 2
+    }
+}
