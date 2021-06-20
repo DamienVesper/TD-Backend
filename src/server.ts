@@ -20,7 +20,7 @@ import vipRouter from './routes/vip';
 import * as path from 'path';
 import * as http from 'http';
 
-import express from 'express';
+import Express from 'express';
 import session from 'express-session';
 
 import MongoStore from 'connect-mongo';
@@ -35,11 +35,11 @@ const ejsLayouts = require(`express-ejs-layouts`);
 process.on(`uncaughtException`, err => log(`red`, err.stack));
 
 // Express app.
-const app: express.Application = express();
+const app: Express.Application = Express();
 
 // Express extension configurations.
-app.use(express.json({ limit: `5mb` }));
-app.use(express.urlencoded({ limit: `5mb`, extended: true }));
+app.use(Express.json({ limit: `5mb` }));
+app.use(Express.urlencoded({ limit: `5mb`, extended: true }));
 
 // Express session.
 app.use(session({
@@ -69,7 +69,7 @@ app.set(`views`, path.resolve(__dirname, `views`));
 app.set(`view engine`, `ejs`);
 
 // Serve the static directory.
-app.use(express.static(path.resolve(__dirname, `../client`)));
+app.use(Express.static(path.resolve(__dirname, `../client`)));
 
 // First, check if an IP is banned.
 app.use(`/`, banRouter);
@@ -89,7 +89,12 @@ const server = http.createServer(app);
 const startApp = async () => {
     logSplash(() => {
         logHeader();
-        mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: true }).then(() => {
+        mongoose.connect(process.env.MONGODB_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex: true,
+            useFindAndModify: true
+        }).then(() => {
             log(`green`, `User authentication has connected to database.`);
             logHeader();
             server.listen(config.port, async () => {
