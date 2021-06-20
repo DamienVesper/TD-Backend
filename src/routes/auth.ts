@@ -126,8 +126,6 @@ router.post(`/signup`, async (req: Express.Request, res: Express.Response, next:
             user.save(() => {
                 log(`yellow`, `Created account "${user.username}" with email "${user.email}"`);
 
-                console.log(`got here 7`);
-
                 if (config.mode === `dev`) {
                     req.logIn(user, err => {
                         if (err) {
@@ -173,9 +171,7 @@ router.post(`/login`, async (req: Express.Request, res: Express.Response, next: 
             success: `Logged in`
         });
     }
-    if (config.mode === `prod`) {
-        if (!req.body[`h-captcha-response`]) return res.json({ errors: `Please solve the captcha.` });
-    }
+    if (config.mode === `prod`) if (!req.body[`h-captcha-response`]) return res.json({ errors: `Please solve the captcha.` });
 
     if (!req.body[`login-username`] || !req.body[`login-password`] ||
         typeof req.body[`login-username`] !== `string` || typeof req.body[`login-password`] !== `string`) {
