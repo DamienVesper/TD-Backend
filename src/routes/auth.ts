@@ -80,6 +80,7 @@ router.post(`/signup`, async (req: Express.Request, res: Express.Response, next:
 
         user.save(err => {
             if (err) throw err;
+            log(`yellow`, `Created account "${user.username}" with email "${user.email}".`);
 
             const mailOptions = {
                 from: `Throwdown.TV <no-reply@throwdown.tv>`,
