@@ -66,9 +66,10 @@ apiRouter.get(`/status/:streamer`, async (req: Express.Request, res: Express.Res
     res.jsonp(data);
 });
 
-apiRouter.get(`/public-stream-data/:streamer`, async (req: Express.Request, res: Express.Response) => {
-    const streamerData = await User.findOne({ username: req.params.streamer.toLowerCase() });
-    if (!streamerData) res.status(404).render(`errors/404.ejs`);
+apiRouter.get(`/public-stream-data/:username`, async (req: Express.Request, res: Express.Response) => {
+    if (!req.params.username) return res.status(400).json({ errors: `Bad Request` })
+    const streamerData = await User.findOne({ username: req.params.username.toLowerCase() });
+    if (!streamerData) res.status(404).json({ errors: `User does not exist.` });
 
     const data = {
         username: streamerData.username,
