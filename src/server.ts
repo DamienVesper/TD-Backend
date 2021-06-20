@@ -72,11 +72,11 @@ app.use(express.static(path.resolve(__dirname, `../client`)));
 app.use(`/`, banRouter);
 
 // Then, pass to the middleware routers.
-app.use(`/`, authRouter);
+app.use(`/auth`, authRouter);
 app.use(`/`, postRouter);
 
 // Then, use special routes.
-app.use(`/widgets`, widgetRouter);
+app.use(`/widget`, widgetRouter);
 app.use(`/api`, apiRouter);
 app.use(`/vip`, vipRouter);
 

@@ -16,7 +16,7 @@ import randomString from '../utils/randomString';
 
 import nodemailer from 'nodemailer';
 
-const authRouter: Express.Router = Express.Router();
+const router: Express.Router = Express.Router();
 
 // Nodemailer.
 const transport = nodemailer.createTransport({
@@ -32,7 +32,7 @@ const transport = nodemailer.createTransport({
     }
 });
 
-authRouter.post(`/signup`, async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+router.post(`/signup`, async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
     if (config.mode === `prod` && req.body[`h-captcha-response`] === undefined) return res.json({ errors: `Please solve the captcha.` });
 
     if (!req.body[`signup-username`] || !req.body[`signup-email`] || !req.body[`signup-password`] || !req.body[`signup-password-confirm`] ||
@@ -167,7 +167,7 @@ authRouter.post(`/signup`, async (req: Express.Request, res: Express.Response, n
     })(req, res, next);
 });
 
-authRouter.post(`/login`, async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+router.post(`/login`, async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
     if (req.isAuthenticated()) {
         return res.json({
             success: `Logged in`
@@ -222,7 +222,7 @@ authRouter.post(`/login`, async (req: Express.Request, res: Express.Response, ne
     })(req, res, next);
 });
 
-authRouter.get(`/logout`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/logout`, async (req: Express.Request, res: Express.Response) => {
     if (req.isAuthenticated()) {
         log(`yellow`, `User "${(<any>req).user.username}" logged out.`);
         req.logOut();
@@ -230,7 +230,7 @@ authRouter.get(`/logout`, async (req: Express.Request, res: Express.Response) =>
     res.redirect(`/`);
 });
 
-authRouter.get(`/authenticated`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/authenticated`, async (req: Express.Request, res: Express.Response) => {
     if (req.isAuthenticated()) {
         return res.json({
             isLoggedIn: true,
@@ -247,7 +247,7 @@ authRouter.get(`/authenticated`, async (req: Express.Request, res: Express.Respo
     }
 });
 
-authRouter.get(`/changepassword/:token`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/changepassword/:token`, async (req: Express.Request, res: Express.Response) => {
     const token = req.params.token;
     const user = await User.findOne({ recoverytoken: token });
 
@@ -257,7 +257,7 @@ authRouter.get(`/changepassword/:token`, async (req: Express.Request, res: Expre
     }
 });
 
-authRouter.post(`/changepassword/:token`, async (req: Express.Request, res: Express.Response) => {
+router.post(`/changepassword/:token`, async (req: Express.Request, res: Express.Response) => {
     if (!req.body[`new-password`] || !req.body[`new-password-confirm`] || typeof req.body[`new-password`] !== `string` || typeof req.body[`new-password-confirm`] !== `string`) return res.json({ errors: `Please fill out all fields` });
 
     if (req.body[`new-password`] !== xssFilters.inHTMLData(req.body[`new-password`])) {
@@ -298,7 +298,7 @@ authRouter.post(`/changepassword/:token`, async (req: Express.Request, res: Expr
     });
 });
 
-authRouter.post(`/recoveraccount`, async (req: Express.Request, res: Express.Response) => {
+router.post(`/recoveraccount`, async (req: Express.Request, res: Express.Response) => {
     if (!req.body[`recover-email`] || typeof req.body[`recover-email`] !== `string`) return res.json({ errors: `Please fill out the recovery email` });
 
     const user = await User.findOne({ email: req.body[`recover-email`] });
@@ -327,7 +327,7 @@ authRouter.post(`/recoveraccount`, async (req: Express.Request, res: Express.Res
     });
 });
 
-authRouter.get(`/verify/*`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/verify/*`, async (req: Express.Request, res: Express.Response) => {
     const token = req.url.split(`/verify/`)[1];
     if (!token) return res.redirect(`/`);
 
@@ -349,7 +349,7 @@ authRouter.get(`/verify/*`, async (req: Express.Request, res: Express.Response) 
     });
 });
 
-authRouter.get(`/deleteaccount`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/deleteaccount`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated) return res.redirect(`/login`);
     const user = await User.findOne({ username: (<any>req).user.username });
 
@@ -372,7 +372,7 @@ authRouter.get(`/deleteaccount`, async (req: Express.Request, res: Express.Respo
     }
 });
 
-authRouter.get(`/deleteaccount/confirm/:token`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/deleteaccount/confirm/:token`, async (req: Express.Request, res: Express.Response) => {
     const token = req.params.token;
     const user = await User.findOne({ deleteToken: token });
     if (!user) return res.status(404).render(`errors/404.ejs`);
@@ -381,4 +381,4 @@ authRouter.get(`/deleteaccount/confirm/:token`, async (req: Express.Request, res
     await User.deleteOne({ username: user.username });
 });
 
-export default authRouter;
+export default router;
