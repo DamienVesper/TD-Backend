@@ -10,7 +10,7 @@ import Sticker from '../models/sticker.model';
 import config from '../../config/config';
 import log from '../utils/log';
 
-const apiRouter: Express.Router = Express.Router();
+const router: Express.Router = Express.Router();
 
 // Nodemailer.
 const transport = Nodemailer.createTransport({
@@ -39,9 +39,9 @@ fs.readdir(path.resolve(__dirname, `../../client/assets/img/chat/emotes`), (err,
     }
 });
 
-apiRouter.get(`/get-emotes`, async (req: Express.Request, res: Express.Response) => res.json(emotes));
+router.get(`/get-emotes`, async (req: Express.Request, res: Express.Response) => res.json(emotes));
 
-apiRouter.get(`/get-stickers`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/get-stickers`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     const stickerData = await Sticker.find({ ownerUsername: (<any>req).user.username });
@@ -54,7 +54,7 @@ apiRouter.get(`/get-stickers`, async (req: Express.Request, res: Express.Respons
 });
 
 // Dummy Live Status incase RTMP goes down.
-apiRouter.get(`/status/:streamer`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/status/:streamer`, async (req: Express.Request, res: Express.Response) => {
     const streamerData = await User.findOne({ username: req.params.streamer.toLowerCase() });
     if (!streamerData) res.status(404).render(`errors/404.ejs`);
 
@@ -66,7 +66,7 @@ apiRouter.get(`/status/:streamer`, async (req: Express.Request, res: Express.Res
     res.jsonp(data);
 });
 
-apiRouter.get(`/public-stream-data/:username`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/public-stream-data/:username`, async (req: Express.Request, res: Express.Response) => {
     if (!req.params.username) return res.status(400).json({ errors: `Bad Request` })
     const streamerData = await User.findOne({ username: req.params.username.toLowerCase() });
     if (!streamerData) res.status(404).json({ errors: `User does not exist.` });
@@ -90,13 +90,13 @@ apiRouter.get(`/public-stream-data/:username`, async (req: Express.Request, res:
     res.jsonp(data);
 });
 
-apiRouter.get(`/whoAmI`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/whoAmI`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
     const accessingUser = await User.findOne({ username: (<any>req).user.username });
     return res.send({ accessingUsername: accessingUser.username });
 });
 
-apiRouter.get(`/following`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/following`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     const streamers = [];
@@ -123,7 +123,7 @@ apiRouter.get(`/following`, async (req: Express.Request, res: Express.Response) 
     return res.json(streamers);
 });
 
-apiRouter.get(`/stream-data`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/stream-data`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     const streamerData = await User.findOne({ username: (<any>req).user.username });
@@ -148,7 +148,7 @@ apiRouter.get(`/stream-data`, async (req: Express.Request, res: Express.Response
     res.jsonp(data);
 });
 
-apiRouter.get(`/delete-account/:username`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/delete-account/:username`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     const accessingUser = await User.findOne({ username: (<any>req).user.username });
@@ -163,7 +163,7 @@ apiRouter.get(`/delete-account/:username`, async (req: Express.Request, res: Exp
     return res.send(true);
 });
 
-apiRouter.get(`/get-followers/:streamer`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/get-followers/:streamer`, async (req: Express.Request, res: Express.Response) => {
     const streamerData = await User.findOne({ username: req.params.streamer.toLowerCase() });
     if (!streamerData) res.status(404).render(`errors/404.ejs`);
 
@@ -174,7 +174,7 @@ apiRouter.get(`/get-followers/:streamer`, async (req: Express.Request, res: Expr
     res.jsonp(data);
 });
 
-apiRouter.get(`/streams`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/streams`, async (req: Express.Request, res: Express.Response) => {
     const streamerData = await User.find({ live: true });
     const streams = [];
 
@@ -199,7 +199,7 @@ apiRouter.get(`/streams`, async (req: Express.Request, res: Express.Response) =>
     return res.json(streams);
 });
 
-apiRouter.get(`/fetch-users-no-staff`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/fetch-users-no-staff`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     const accessingUser = await User.findOne({ username: (<any>req).user.username });
@@ -235,7 +235,7 @@ apiRouter.get(`/fetch-users-no-staff`, async (req: Express.Request, res: Express
     return res.json(users);
 });
 
-apiRouter.get(`/fetch-user/:username`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/fetch-user/:username`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     const accessingUser = await User.findOne({ username: (<any>req).user.username });
@@ -269,7 +269,7 @@ apiRouter.get(`/fetch-user/:username`, async (req: Express.Request, res: Express
     return res.json(user);
 });
 
-apiRouter.post(`/rtmp-api`, async (req: Express.Request, res: Express.Response) => {
+router.post(`/rtmp-api`, async (req: Express.Request, res: Express.Response) => {
     const streamer = req.body.streamer.toLowerCase();
     const apiKey = req.body.apiKey;
 
@@ -288,7 +288,7 @@ apiRouter.post(`/rtmp-api`, async (req: Express.Request, res: Express.Response) 
     res.json(data);
 });
 
-apiRouter.post(`/stream-status`, async (req: Express.Request, res: Express.Response) => {
+router.post(`/stream-status`, async (req: Express.Request, res: Express.Response) => {
     const streamKey = req.body.streamKey;
     const status = req.body.status;
 
@@ -310,7 +310,7 @@ apiRouter.post(`/stream-status`, async (req: Express.Request, res: Express.Respo
     });
 });
 
-apiRouter.post(`/send-notifications`, async (req: Express.Request, res: Express.Response) => {
+router.post(`/send-notifications`, async (req: Express.Request, res: Express.Response) => {
     const streamer = req.body.streamer;
     const apiKey = req.body.apiKey;
 
@@ -339,7 +339,7 @@ apiRouter.post(`/send-notifications`, async (req: Express.Request, res: Express.
     res.json({ success: `Sent out notification emails for Streamer: ${streamerData.username}` });
 });
 
-apiRouter.get(`/stream-key/:apiKey/:streamKey`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/stream-key/:apiKey/:streamKey`, async (req: Express.Request, res: Express.Response) => {
     const streamKey = req.params.streamKey;
     const apiKey = req.params.apiKey;
 
@@ -361,7 +361,7 @@ apiRouter.get(`/stream-key/:apiKey/:streamKey`, async (req: Express.Request, res
     res.json(data);
 });
 
-apiRouter.post(`/fetch-user`, async (req: Express.Request, res: Express.Response) => {
+router.post(`/fetch-user`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     const accessingUser = await User.findOne({ username: (<any>req).user.username });
@@ -396,7 +396,7 @@ apiRouter.post(`/fetch-user`, async (req: Express.Request, res: Express.Response
 });
 
 // Ban User
-apiRouter.post(`/banuser`, async (req: Express.Request, res: Express.Response) => {
+router.post(`/banuser`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     const accessingUser = await User.findOne({ username: (<any>req).user.username });
@@ -413,7 +413,7 @@ apiRouter.post(`/banuser`, async (req: Express.Request, res: Express.Response) =
 });
 
 // Ban User via GET
-apiRouter.get(`/banuser/:ttusername`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/banuser/:ttusername`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     const accessingUser = await User.findOne({ username: (<any>req).user.username });
@@ -432,7 +432,7 @@ apiRouter.get(`/banuser/:ttusername`, async (req: Express.Request, res: Express.
 });
 
 // Unban User
-apiRouter.post(`/unbanuser`, async (req: Express.Request, res: Express.Response) => {
+router.post(`/unbanuser`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     const accessingUser = await User.findOne({ username: (<any>req).user.username });
@@ -450,7 +450,7 @@ apiRouter.post(`/unbanuser`, async (req: Express.Request, res: Express.Response)
 });
 
 // Unban User via GET
-apiRouter.get(`/unbanuser/:ttusername`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/unbanuser/:ttusername`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     const accessingUser = await User.findOne({ username: (<any>req).user.username });
@@ -468,7 +468,7 @@ apiRouter.get(`/unbanuser/:ttusername`, async (req: Express.Request, res: Expres
     return res.json({ status: `Done!` });
 });
 
-apiRouter.post(`/change-streamer-status`, async (req: Express.Request, res: Express.Response) => {
+router.post(`/change-streamer-status`, async (req: Express.Request, res: Express.Response) => {
     const streamer = req.body.streamer;
     const apiKey = req.body.apiKey;
 
@@ -489,7 +489,7 @@ apiRouter.post(`/change-streamer-status`, async (req: Express.Request, res: Expr
     user.save(() => res.json({ success: `Changed Streamer Status` }));
 });
 
-apiRouter.get(`/update-email/:username/:newEmail`, async (req: Express.Request, res: Express.Response) => {
+router.get(`/update-email/:username/:newEmail`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     const accessingUser = await User.findOne({ username: (<any>req).user.username });
@@ -502,4 +502,4 @@ apiRouter.get(`/update-email/:username/:newEmail`, async (req: Express.Request, 
     userToUpdate.save(() => res.json({ success: `Changed User Email` }));
 });
 
-export default apiRouter;
+export default router;
