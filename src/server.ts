@@ -13,7 +13,7 @@ import passport from './passport';
 import banRouter from './routes/ban';
 import apiRouter from './routes/api';
 import authRouter from './routes/auth';
-import postRouter from './routes/post';
+import postRouter from './routes/settings';
 import widgetRouter from './routes/widget';
 import vipRouter from './routes/vip';
 
