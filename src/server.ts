@@ -27,6 +27,7 @@ import MongoStore from 'connect-mongo';
 import mongoose from 'mongoose';
 
 import helmet from 'helmet';
+import cors from 'cors';
 
 const ejsLayouts = require(`express-ejs-layouts`);
 
@@ -53,6 +54,8 @@ app.use(session({
 // Passport middleware.
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(cors());
 
 // Express middleware.
 app.use(ejsLayouts);
