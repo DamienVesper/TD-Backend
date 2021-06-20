@@ -67,7 +67,7 @@ router.get(`/status/:streamer`, async (req: Express.Request, res: Express.Respon
 });
 
 router.get(`/public-stream-data/:username`, async (req: Express.Request, res: Express.Response) => {
-    if (!req.params.username) return res.status(400).json({ errors: `Bad Request` })
+    if (!req.params.username) return res.status(400).json({ errors: `Bad Request` });
     const streamerData = await User.findOne({ username: req.params.username.toLowerCase() });
     if (!streamerData) res.status(404).json({ errors: `User does not exist.` });
 

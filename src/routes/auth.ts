@@ -15,7 +15,6 @@ import { UserDoc } from '../types/models';
 import log from '../utils/log';
 import randomString from '../utils/randomString';
 
-
 // Nodemailer.
 import transport from '../utils/nodemailer';
 
@@ -47,7 +46,7 @@ router.post(`/signup`, async (req: Express.Request, res: Express.Response, next:
     if (/[^\w\s]/.test(username) || username.split(` `).length > 1) return res.json({ errors: `Your username cannot contain spaces.` });
 
     // Username may not be a blacklisted username.
-    if (config.blacklistedUsernames.includes(username.toLowerCase())) return res.json({ errors: `That username is blacklisted.` })
+    if (config.blacklistedUsernames.includes(username.toLowerCase())) return res.json({ errors: `That username is blacklisted.` });
 
     // Email must be an actual email.
     if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) return res.json({ errors: `Invalid email.` });
