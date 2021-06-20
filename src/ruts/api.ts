@@ -26,20 +26,20 @@ const transport = Nodemailer.createTransport({
     }
 });
 
-// Load emotes.
-const emotes = [];
-fs.readdir(path.resolve(__dirname, `../../client/assets/img/chat/emotes`), (err, files) => {
-    if (err) return log(`red`, err.stack);
+// // Load emotes.
+// const emotes = [];
+// fs.readdir(path.resolve(__dirname, `../../client/assets/img/chat/emotes`), (err, files) => {
+//     if (err) return log(`red`, err.stack);
 
-    for (const emote of files) {
-        emotes.push({
-            name: emote.split(`.`)[0],
-            extension: emote.split(`.`).pop()
-        });
-    }
-});
+//     for (const emote of files) {
+//         emotes.push({
+//             name: emote.split(`.`)[0],
+//             extension: emote.split(`.`).pop()
+//         });
+//     }
+// });
 
-router.get(`/get-emotes`, async (req: Express.Request, res: Express.Response) => res.json(emotes));
+// router.get(`/get-emotes`, async (req: Express.Request, res: Express.Response) => res.json(emotes));
 
 router.get(`/get-stickers`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);

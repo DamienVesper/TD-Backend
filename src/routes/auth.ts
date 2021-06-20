@@ -37,7 +37,7 @@ router.post(`/signup`, async (req: Express.Request, res: Express.Response, next:
     if (!username || !email || !password || !confirmPassword || (config.mode === `prod` && !hCaptchaKey)) return res.status(400);
 
     // Username must contain at least one alphabetical character.
-    if (!/[a-zA-Z]/.test(username)) return res.status(400).json({ errors: `Your username must contain at least one letter.` });
+    if (!/[a-zA-Z]/.test(username)) return res.json({ errors: `Your username must contain at least one letter.` });
 
     // Username must be between 3 and 20 characters.
     if (username.length < 3 || username.length > 20) return res.json({ errors: `Your username must be between 3 and 20 characters.` });
@@ -92,6 +92,26 @@ router.post(`/signup`, async (req: Express.Request, res: Express.Response, next:
             transport.sendMail(mailOptions, err => err && user.delete() && res.json({ errors: `We could not send you a verification code.` }));
             res.json({ success: `A verification code has been sent to your email.` });
         });
+    })(req, res, next);
+});
+
+// On login.
+router.post(`/login`, async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+    const username = (req.query.username as string)
+    const password = (req.query.password as string);
+    const hCaptcha = (req.query.hCaptcha as string);
+
+    // If the user is already logged in, then redirect them to the homepage.
+    if (req.isAuthenticated()) return res.redirect(`/`);
+
+    // If not all fields are filled out, somebody tampered with the form. Directly reject the request.
+    if (!username || !password || !hCaptcha) return res.status(400);
+
+    // Make sure the captcha was solved.
+    if (config.mode === `prod` && hCaptcha) return res.json({ errors: `Please solve the captcha.` });
+
+    passport.authenticate(`login`, (err, user, info) => {
+
     })(req, res, next);
 });
 
