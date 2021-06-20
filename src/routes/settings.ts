@@ -10,10 +10,10 @@ import User from '../models/user.model';
 import config from '../../config/config';
 import client from '../utils/discord';
 
-const postRouter: Express.Router = Express.Router();
+const router: Express.Router = Express.Router();
 
 // All POST requests are handled within this router (except authentication).
-postRouter.post(`/dashboard`, async (req: Express.Request, res: Express.Response) => {
+router.post(`/dashboard`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     if (!req.body[`stream-title`] || !req.body[`stream-description`] || !req.body[`donation-link`] ||
@@ -38,7 +38,7 @@ postRouter.post(`/dashboard`, async (req: Express.Request, res: Express.Response
 });
 
 // Update account information.
-postRouter.post(`/accountoptions/updateinfo`, async (req: Express.Request, res: Express.Response) => {
+router.post(`/accountoptions/updateinfo`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     if (!req.body[`display-name`] || typeof req.body[`display-name`] !== `string`) return res.json({ errors: `Please fill out all fields` });
@@ -55,7 +55,7 @@ postRouter.post(`/accountoptions/updateinfo`, async (req: Express.Request, res: 
 });
 
 // Update general options.
-postRouter.post(`/accountoptions/generaloptions`, async (req: Express.Request, res: Express.Response) => {
+router.post(`/accountoptions/generaloptions`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     let notifications = true;
@@ -74,7 +74,7 @@ postRouter.post(`/accountoptions/generaloptions`, async (req: Express.Request, r
 });
 
 // Update Avatar
-postRouter.post(`/accountoptions/updatepfp`, async (req: Express.Request, res: Express.Response) => {
+router.post(`/accountoptions/updatepfp`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     if (!req.body[`display-avatar`] || typeof req.body[`display-avatar`] !== `string`) return res.json({ errors: `Please fill out all fields` });
@@ -89,7 +89,7 @@ postRouter.post(`/accountoptions/updatepfp`, async (req: Express.Request, res: E
 });
 
 // Change Stream Key
-postRouter.post(`/changestreamkey`, async (req: Express.Request, res: Express.Response) => {
+router.post(`/changestreamkey`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     const user = await User.findOne({ username: (<any>req).user.username });
@@ -102,7 +102,7 @@ postRouter.post(`/changestreamkey`, async (req: Express.Request, res: Express.Re
 });
 
 // Follow a streamer
-postRouter.post(`/follow/:streamer`, async (req: Express.Request, res: Express.Response) => {
+router.post(`/follow/:streamer`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     const streamer = await User.findOne({ username: req.params.streamer });
@@ -122,7 +122,7 @@ postRouter.post(`/follow/:streamer`, async (req: Express.Request, res: Express.R
 });
 
 // Unfollow a streamer
-postRouter.post(`/unfollow/:streamer`, async (req: Express.Request, res: Express.Response) => {
+router.post(`/unfollow/:streamer`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
 
     const streamer = await User.findOne({ username: req.params.streamer });
@@ -140,7 +140,7 @@ postRouter.post(`/unfollow/:streamer`, async (req: Express.Request, res: Express
     });
 });
 
-postRouter.post(`/report/:streamer`, async (req: Express.Request, res: Express.Response) => {
+router.post(`/report/:streamer`, async (req: Express.Request, res: Express.Response) => {
     if (!req.isAuthenticated()) return res.redirect(`/login`);
     if (config.mode === `prod`) {
         if (req.body[`h-captcha-response`] === undefined) return res.json({ errors: `Please solve the captcha.` });
@@ -173,4 +173,4 @@ postRouter.post(`/report/:streamer`, async (req: Express.Request, res: Express.R
     res.json({ success: `Your Report was successfully sent, redirecting...` });
 });
 
-export default postRouter;
+export default router;
