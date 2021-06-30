@@ -6,8 +6,8 @@
   "scripts": {
     "build": "tsc",
     "prod": "node ./build/src/server.js --mode prod",
-    "dist": "yarn build && yarn dev",
-    "dev": "node ./build/src/server.js --mode dev",
+    "dist": "node ./build/src/server.js --mode dev",
+    "dev": "ts-node ./src/server.ts",
     "dev:lint": "eslint . --fix --ext .ts"
   },
   "repository": {
