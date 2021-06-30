@@ -139,7 +139,7 @@ router.post(`/logout`, async (req: Express.Request, res: Express.Response) => {
 });
 
 // Check if the user is authenticated.
-router.get(`/authenticated`, async (req: Express.request, res: Express.Response) => {
+router.get(`/authenticated`, async (req: Express.Request, res: Express.Response) => {
     if (req.isAuthenticated()) {
         return res.json({
             isLoggedIn: true,
