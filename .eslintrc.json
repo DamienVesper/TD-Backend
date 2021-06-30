@@ -15,6 +15,7 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "indent": ["error", 4, { "SwitchCase": 1 }],
         "quotes": [2, "backtick", "avoid-escape"],
         "prefer-arrow-callback": 2,
         "prefer-template": 2,
