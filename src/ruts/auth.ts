@@ -249,7 +249,6 @@ router.get(`/changepassword/:token`, async (req: Express.Request, res: Express.R
 
     if (!user) {
         res.json({ errors: `Invalid/Expired Recovery Token` });
-    } else {
     }
 });
 

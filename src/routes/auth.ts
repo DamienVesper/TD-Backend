@@ -3,17 +3,14 @@ import Express from 'express';
 import config from '../../config/config';
 import passport from '../passport';
 
-import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 
 import xssFilters from 'xss-filters';
 import * as HCaptcha from 'hcaptcha';
 
-import User from '../models/user.model';
 import { UserDoc } from '../types/models';
 
 import log from '../utils/log';
-import randomString from '../utils/randomString';
 
 // Nodemailer.
 import transport from '../utils/nodemailer';
@@ -97,7 +94,7 @@ router.post(`/signup`, async (req: Express.Request, res: Express.Response, next:
 
 // On login.
 router.post(`/login`, async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
-    const username = (req.query.username as string)
+    const username = (req.query.username as string);
     const password = (req.query.password as string);
     const hCaptcha = (req.query.hCaptcha as string);
 
@@ -111,8 +108,34 @@ router.post(`/login`, async (req: Express.Request, res: Express.Response, next: 
     if (config.mode === `prod` && hCaptcha) return res.json({ errors: `Please solve the captcha.` });
 
     passport.authenticate(`login`, (err, user, info) => {
+        if (err) {
+            log(`red`, err);
+            return res.json({ errors: err });
+        }
 
+        if (!user) return res.json({ errors: `User does not exist.` });
+        else if (!user.verified) return res.json({ errors: `Please verify your email.` });
+
+        req.logIn(user, err => {
+            if (err) {
+                log(`red`, err);
+                return res.json({ errors: `There was an error processing your request.` });
+            }
+
+            log(`yellow`, `User "${user.username}" succesfully logged in.`);
+            return res.json({ success: `You have logged in!` });
+        });
     })(req, res, next);
+});
+
+// On logout.
+router.post(`/logout`, async (req: Express.Request, res: Express.Response) => {
+    if (req.isAuthenticated()) {
+        log(`yellow`, `User "${(<any>req).user.username}" logged out.`);
+        req.logOut();
+    }
+
+    res.redirect(`/`);
 });
 
 export default router;

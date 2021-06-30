@@ -10,12 +10,7 @@ import throwdownUser from './modules/throwdownUser';
 
 import passport from './passport';
 
-import banRouter from './ruts/ban';
-import apiRouter from './ruts/api';
-import authRouter from './ruts/auth';
-import postRouter from './ruts/settings';
-import widgetRouter from './ruts/widget';
-import vipRouter from './ruts/vip';
+import authRouter from './routes/auth';
 
 import * as path from 'path';
 import * as http from 'http';
@@ -71,17 +66,11 @@ app.set(`view engine`, `ejs`);
 // Serve the static directory.
 app.use(Express.static(path.resolve(__dirname, `../client`)));
 
-// First, check if an IP is banned.
-app.use(`/`, banRouter);
+// Check if IP is banned.
+// app.use(`/`, banRouter);
 
-// Then, pass to the middleware routers.
+// Account server.
 app.use(`/auth`, authRouter);
-app.use(`/`, postRouter);
-
-// Then, use special routes.
-app.use(`/widget`, widgetRouter);
-app.use(`/api`, apiRouter);
-app.use(`/vip`, vipRouter);
 
 // Create the webfront.
 const server = http.createServer(app);
