@@ -15,14 +15,9 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "indent": ["error", 4, { "SwitchCase": 1 }],
-
-        "semi": [2, "always"],
         "quotes": [2, "backtick", "avoid-escape"],
-
-        "curly": 0,
-
-        "prefer-arrow-callback": 1,
-        "prefer-template": 1
+        "prefer-arrow-callback": 2,
+        "prefer-template": 2,
+        "curly": 0
     }
 }
