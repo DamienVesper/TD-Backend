@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "prod": "node ./build/src/server.js --mode prod",
-    "dist": "node ./build/src/server.js --mode dev",
+    "dist": "yarn build && node ./build/src/server.js --mode dev",
     "dev": "ts-node ./src/server.ts",
     "dev:lint": "eslint . --fix --ext .ts"
   },
