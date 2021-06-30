@@ -21,7 +21,7 @@ const config = {
     domain: `throwdown.tv`,
 
     port: argv.mode === `prod` ? 8777 : 8080,
-    socketPort: 8444g,
+    socketPort: 8444,
 
     version,
     blacklistedUsernames: [`admin`, `panel`, `adminpanel`, `moderation`, `moderation-dashboard`, `api`, `signup`, `login`, `tos`, `browse`, `following`, `dashboard`, `changestreamkey`, `widget`, `follow`, `unfollow`, `throwdown`, `vip`, `staff`, `recoveraccount`, `changepassword`, `report`],
