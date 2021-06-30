@@ -8,7 +8,7 @@ import clearTimeouts from './modules/clearTimeouts';
 import resetRTMPServers from './modules/resetRTMPServers';
 import throwdownUser from './modules/throwdownUser';
 
-import passport from './passport';
+import passport from './pasaporte';
 
 import authRouter from './routes/auth';
 

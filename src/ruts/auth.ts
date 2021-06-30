@@ -1,5 +1,5 @@
 import * as Express from 'express';
-import passport from '../passport';
+import passport from '../pasaporte';
 
 import * as bcrypt from 'bcrypt';
 
