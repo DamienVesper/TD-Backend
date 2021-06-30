@@ -138,4 +138,21 @@ router.post(`/logout`, async (req: Express.Request, res: Express.Response) => {
     res.redirect(`/`);
 });
 
+// Check if the user is authenticated.
+router.get(`/authenticated`, async (req: Express.request, res: Express.Response) => {
+    if (req.isAuthenticated()) {
+        return res.json({
+            isLoggedIn: true,
+            username: (<any>req).user.username,
+            email: (<any>req).user.email,
+            displayName: (<any>req).user.displayName,
+            token: (<any>req).user.token ? (<any>req).user.token : undefined,
+            isSuspended: (<any>req).user.isSuspended
+        });
+    } else {
+        return res.json({
+            isLoggedIn: false
+        });
+    }
+});
 export default router;
