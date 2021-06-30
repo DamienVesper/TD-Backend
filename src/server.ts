@@ -11,6 +11,7 @@ import throwdownUser from './modules/throwdownUser';
 import passport from './pasaporte';
 
 import authRouter from './routes/auth';
+import streamRouter from './routes/stream';
 
 import * as path from 'path';
 import * as http from 'http';
@@ -71,6 +72,9 @@ app.use(Express.static(path.resolve(__dirname, `../client`)));
 
 // Account server.
 app.use(`/auth`, authRouter);
+
+// Public stream API.
+app.use(`/stream`, streamRouter);
 
 // Create the webfront.
 const server = http.createServer(app);
