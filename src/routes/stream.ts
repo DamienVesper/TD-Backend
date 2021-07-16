@@ -1,19 +1,5 @@
 import Express from 'express';
-
-import config from '../../config/config';
-import passport from '../passport';
-
-import crypto from 'crypto';
-
-import xssFilters from 'xss-filters';
-import * as HCaptcha from 'hcaptcha';
-
 import User from '../models/user.model';
-
-import log from '../utils/log';
-
-// Nodemailer.
-import transport from '../utils/nodemailer';
 
 const router: Express.Router = Express.Router();
 
