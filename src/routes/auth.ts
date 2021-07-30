@@ -155,4 +155,5 @@ router.get(`/authenticated`, async (req: Express.Request, res: Express.Response)
         });
     }
 });
+
 export default router;

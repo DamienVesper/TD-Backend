@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 
 import User from './models/user.model';
+import { UserDoc } from './types/models';
 
 import log from './utils/log';
 import randomString from './utils/randomString';
@@ -8,12 +9,12 @@ import randomString from './utils/randomString';
 import passport from 'passport';
 import PassportLocal from 'passport-local';
 
-passport.serializeUser((user, done) => {
+passport.serializeUser((user: UserDoc, done): void => {
     done(null, user);
 });
 
-passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => {
+passport.deserializeUser((id, done): void => {
+    User.findById(id, (err: any, user: UserDoc): void => {
         done(err, user);
     });
 });
@@ -32,7 +33,7 @@ passport.use(`login`, new PassportLocal.Strategy({
         bcrypt.compare(password, user.password, (err, isMatch) => {
             if (err) return log(`red`, err.stack);
             else if (isMatch) {
-                user.token = randomString(64);
+                user.token = randomString(32);
                 user.save();
 
                 return done(null, user);
@@ -56,7 +57,7 @@ passport.use(`signup`, new PassportLocal.Strategy({
             displayName: username,
             creationDate: new Date(),
             settings: {
-                streamKey: `${username.toLowerCase()}_${randomString(32)}`
+                streamKey: randomString(64)
             },
             password
         });
