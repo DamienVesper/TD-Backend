@@ -54,7 +54,7 @@
     "express-session": "^1.17.2",
     "hcaptcha": "^0.1.0",
     "helmet": "^4.6.0",
-    "mongoose": "5.13.4",
+    "mongoose": "5.13.5",
     "nodemailer": "^6.6.3",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
