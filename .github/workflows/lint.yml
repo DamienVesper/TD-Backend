@@ -1,4 +1,4 @@
-name: Node.js CI
+name: CI
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [16]
 
     steps:
       - name: Checkout Repository
@@ -23,11 +23,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install Packages
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: install
+        run: yarn
 
       - name: Lint
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: dev:lint
+        run: yarn dev:lint
