@@ -169,7 +169,7 @@ router.post(`/report/:streamer`, async (req: Express.Request, res: Express.Respo
         .setImage(`https://${streamer.settings.rtmpServer}.throwdown.tv/api/thumbnail/${req.params.streamer.toLowerCase()}`)
         .setFooter(`Reported by: ${(<any>req).user.username}`);
 
-    await (channel as Discord.TextChannel).send(sEmbed);
+    await (channel as Discord.TextChannel).send({ embeds: [sEmbed] });
     res.json({ success: `Your Report was successfully sent, redirecting...` });
 });
 
