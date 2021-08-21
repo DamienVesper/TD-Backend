@@ -1,5 +1,5 @@
 import User from '../../models/user.model';
-import { Chatter, CommandConfig } from '../../types/chat';
+import { Chatter, CommandConfig } from '../../typings/chat';
 
 const cmd: CommandConfig = {
     desc: `Time out a user from chat for 5 minutes!`,

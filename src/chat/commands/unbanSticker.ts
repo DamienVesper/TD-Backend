@@ -1,5 +1,5 @@
 import Sticker from '../../models/sticker.model';
-import { Chatter, CommandConfig } from '../../types/chat';
+import { Chatter, CommandConfig } from '../../typings/chat';
 
 const cmd: CommandConfig = {
     desc: `Unban a sticker from the channel!`,

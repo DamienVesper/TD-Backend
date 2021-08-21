@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 
 import User from './models/user.model';
-import { UserDoc } from './types/models';
+import { UserDoc } from './typings/models';
 
 import log from './utils/log';
 import randomString from './utils/randomString';

@@ -1,5 +1,5 @@
 import * as Mongoose from 'mongoose';
-import { BanDoc } from '../types/models';
+import { BanDoc } from '../typings/models';
 
 const banSchema = new Mongoose.Schema({
     IP: { type: String, required: true },

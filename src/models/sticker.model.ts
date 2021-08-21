@@ -1,5 +1,5 @@
 import * as Mongoose from 'mongoose';
-import { StickerDoc } from '../types/models';
+import { StickerDoc } from '../typings/models';
 
 const stickerSchema = new Mongoose.Schema({
     stickerName: { type: String, required: true },

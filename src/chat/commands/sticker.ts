@@ -1,7 +1,7 @@
 import User from '../../models/user.model';
 import Sticker from '../../models/sticker.model';
 
-import { Chatter, CommandConfig } from '../../types/chat';
+import { Chatter, CommandConfig } from '../../typings/chat';
 
 const cmd: CommandConfig = {
     desc: `Send a sticker that you have access to!`,

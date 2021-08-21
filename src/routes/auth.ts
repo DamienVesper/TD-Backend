@@ -8,7 +8,7 @@ import crypto from 'crypto';
 import xssFilters from 'xss-filters';
 import * as HCaptcha from 'hcaptcha';
 
-import { UserDoc } from '../types/models';
+import { UserDoc } from '../typings/models';
 
 import log from '../utils/log';
 

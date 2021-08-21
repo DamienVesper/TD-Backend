@@ -1,5 +1,5 @@
 import User from '../../models/user.model';
-import { Chatter, CommandConfig } from '../../types/chat';
+import { Chatter, CommandConfig } from '../../typings/chat';
 
 const cmd: CommandConfig = {
     desc: `Disable chatting on your channel!`,

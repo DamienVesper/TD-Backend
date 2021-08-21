@@ -1,5 +1,5 @@
 import * as Mongoose from 'mongoose';
-import { UserDoc } from '../types/models';
+import { UserDoc } from '../typings/models';
 
 import randomString from '../utils/randomString';
 

@@ -1,4 +1,4 @@
-import { Chatter, CommandConfig } from '../../types/chat';
+import { Chatter, CommandConfig } from '../../typings/chat';
 import log from '../../utils/log';
 
 import * as fs from 'fs';

@@ -1,5 +1,5 @@
 import config from '../../config/config';
-import { Chatter, Command } from '../types/chat';
+import { Chatter, Command } from '../typings/chat';
 
 import * as fs from 'fs';
 import * as path from 'path';

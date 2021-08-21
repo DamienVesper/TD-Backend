@@ -7,7 +7,7 @@ import * as SocketIO from 'socket.io';
 import * as commandHandler from './commandHandler';
 
 import User from '../models/user.model';
-import { Chatter } from '../types/chat';
+import { Chatter } from '../typings/chat';
 
 import log from '../utils/log';
 import { logHeader } from '../utils/logExtra';
