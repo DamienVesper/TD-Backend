@@ -48,7 +48,7 @@
     "discord.js": "^13.1.0",
     "ejs": "^3.1.6",
     "emoji-js": "^3.6.0",
-    "express": "^4.17.1",
+    "express": "^4.17.2",
     "express-ejs-layouts": "^2.5.0",
     "express-session": "^1.17.2",
     "hcaptcha": "^0.1.0",
